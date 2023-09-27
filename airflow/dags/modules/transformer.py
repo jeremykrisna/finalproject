@@ -10,6 +10,11 @@ class Transformer:
         query = "SELECT DISTINCT case_type AS case_type_id FROM covid_jabar"
         df_case_type = pd.read_sql(query, con=self.engine_sql)
         df_case_type = df_case_type.rename(columns={'case_type': 'case_type_name'})
+
+        # Split the status column into status_name and status_detail columns
+        df_case_type['status_name'] = df_case_type['case_type_id'].str.split('_', 1).str[0]
+        df_case_type['status_detail'] = df_case_type['case_type_id'].str.split('_', 1).str[1]
+
         df_case_type.to_sql('dim_case', con=self.engine_postgres, index=False, if_exists='replace')
 
     def create_dimension_district(self):
