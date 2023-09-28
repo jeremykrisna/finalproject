@@ -6,7 +6,7 @@ class CovidScraper():
     def __init__(self,url):
         self.url=url
     
-    def get_date(self):
+    def get_data(self):
         response=requests.get(self.url)
         result=response.json()['data']['content']
         logging.info("GET DATA FROM API COMPLETED")
